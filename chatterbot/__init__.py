@@ -1,7 +1,11 @@
 class ChatBot(object):
 
-    def __init__(self, algorithm, log=True):
+    def __init__(self, algorithm=None, log=True):
         from pymongo import MongoClient
+        from chatterbot.algorithms.engram import engram
+
+        if not algorithm:
+            algorithm = engram
 
         self.response_algorithm = algorithm
         self.logging = log
@@ -161,6 +165,7 @@ class Terminal(ChatBot):
         if not user_input:
             user_input = self.get_latest_statement()["text"]
 
+        # If there is no latest statement, display a prompt
         if not user_input:
             user_input = "Type something to begin..."
 

@@ -3,7 +3,6 @@ def engram(chatbot, text):
     Takes a chatbot object and a statement object.
     Returns a response based on the closest match based on in known conversations.
     """
-    from bson import ObjectId
     from fuzzywuzzy import fuzz
 
     statements = chatbot.database.statements
@@ -31,7 +30,7 @@ def engram(chatbot, text):
 
     # Select all statements which have been used to respond to this object
     possible_responses = statements.find(
-        {"in_response_to": ObjectId(closest_statement["_id"])}
+        {"in_response_to": closest_statement["_id"]}
     ).sort("occurrences", -1)
 
     # Return the response with the greatest number of occurances
